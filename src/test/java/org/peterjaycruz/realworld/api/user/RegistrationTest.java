@@ -1,4 +1,4 @@
-package org.peterjaycruz.realworld.api.registration;
+package org.peterjaycruz.realworld.api.user;
 
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
@@ -59,7 +59,7 @@ public class RegistrationTest {
   }
 
   @Test
-  public void requiresEmail() {
+  public void requireEmail() {
     User user = new User("username", "", "testPassword");
 
     Response response = given()
@@ -78,7 +78,7 @@ public class RegistrationTest {
   }
 
   @Test
-  public void requiresPassword() {
+  public void requirePassword() {
     User user = new User("username", "email@email.com", "");
 
     Response response = given()
@@ -97,7 +97,7 @@ public class RegistrationTest {
   }
 
   @Test
-  public void requiresUniqueUsername() {
+  public void requireUniqueUsername() {
     User uniqueUser = new User();
     given()
       .log().uri()
@@ -127,7 +127,7 @@ public class RegistrationTest {
   }
 
   @Test
-  public void requiresUniqueEmail() {
+  public void requireUniqueEmail() {
     User uniqueUser = new User();
     given()
       .log().uri()
