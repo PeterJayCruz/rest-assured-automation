@@ -4,7 +4,7 @@ import org.peterjaycruz.realworld.utilities.StringUtilities;
 
 import java.util.HashMap;
 
-public class User {
+public class UserModel {
 
   // request field names
   private static final String USERNAME = "username";
@@ -13,20 +13,16 @@ public class User {
 
   private HashMap<String, String> user;
 
-  public User() {
+  public UserModel() {
     this.user = new HashMap<>();
   }
 
-  public User(String username, String email, String password) {
+  public UserModel(String username, String email, String password) {
     this.user = new HashMap<>();
     createUserMap(username, email, password);
   }
 
-  public HashMap<String, String> getUser() {
-    return user;
-  }
-
-  public User createUserWithDefaultValues() {
+  public UserModel createUserWithDefaultValues() {
     String username = StringUtilities.createUniqueString("username_");
     String email = username.concat("@email.com");
     String password = "testPassword";
@@ -37,17 +33,21 @@ public class User {
     return this;
   }
 
-  public User username(String username) {
+  public HashMap<String, String> getUser() {
+    return user;
+  }
+
+  public UserModel username(String username) {
     this.user.put(USERNAME, username);
     return this;
   }
 
-  public User email(String email) {
+  public UserModel email(String email) {
     this.user.put(EMAIL, email);
     return this;
   }
 
-  public User password(String password) {
+  public UserModel password(String password) {
     this.user.put(PASSWORD, password);
     return this;
   }
@@ -59,47 +59,3 @@ public class User {
     this.user.put(PASSWORD, password);
   }
 }
-
-// package org.peterjaycruz.realworld.api.request;
-//
-// import org.peterjaycruz.realworld.utilities.StringUtilities;
-//
-// import java.util.HashMap;
-//
-// public class User {
-//
-//   private String username;
-//   private String email;
-//   private String password;
-//
-//   public User() {
-//     username = StringUtilities.createUniqueString("username_");
-//     email = username.concat("@email.com");
-//     password = "testPassword";
-//   }
-//
-//   public User(String username, String email, String password) {
-//     this.username = username;
-//     this.email = email;
-//     this.password = password;
-//   }
-//
-//   public User username(String username) {
-//     this.username = username;
-//     return this;
-//   }
-//
-//   public User email(String email) {
-//     this.email = email;
-//     return this;
-//   }
-//
-//   public User password(String password) {
-//     this.password = password;
-//     return this;
-//   }
-//
-//   public HashMap<String, String> getUser() {
-//     return new HashMap<>();
-//   }
-// }
