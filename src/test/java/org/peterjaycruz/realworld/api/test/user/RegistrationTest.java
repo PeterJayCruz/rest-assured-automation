@@ -1,10 +1,8 @@
 package org.peterjaycruz.realworld.api.user;
 
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import org.peterjaycruz.realworld.api.request.UserModel;
+import org.peterjaycruz.realworld.api.request.UserRequestBody;
 import org.peterjaycruz.realworld.constants.Path;
 import org.peterjaycruz.realworld.utilities.RestAssuredUtilities;
 import org.testng.annotations.Test;
@@ -17,7 +15,7 @@ public class RegistrationTest {
   @Test
   public void registerNewUser() {
 
-    UserModel user = new UserModel().createUserWithDefaultValues();
+    UserRequestBody user = new UserRequestBody().createUserBodyWithDefaultValues();
     RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION_BASE_PATH, user);
 
     Response response = given()
@@ -39,7 +37,7 @@ public class RegistrationTest {
 
   @Test
   public void requireUsername() {
-    UserModel user = new UserModel("", "email@email.com", "testPassword");
+    UserRequestBody user = new UserRequestBody("", "email@email.com", "testPassword");
     RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION_BASE_PATH, user);
 
     Response response = given()
@@ -59,7 +57,7 @@ public class RegistrationTest {
 
   @Test
   public void requireEmail() {
-    UserModel user = new UserModel("username", "", "testPassword");
+    UserRequestBody user = new UserRequestBody("username", "", "testPassword");
     RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION_BASE_PATH, user);
 
     Response response = given()
@@ -79,7 +77,7 @@ public class RegistrationTest {
 
   @Test
   public void requirePassword() {
-    UserModel user = new UserModel("username", "email@email.com", "");
+    UserRequestBody user = new UserRequestBody("username", "email@email.com", "");
     RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION_BASE_PATH, user);
 
     Response response = given()
@@ -99,7 +97,7 @@ public class RegistrationTest {
 
   @Test
   public void requireUniqueUsername() {
-    UserModel uniqueUser = new UserModel().createUserWithDefaultValues();
+    UserRequestBody uniqueUser = new UserRequestBody().createUserBodyWithDefaultValues();
     RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION_BASE_PATH, uniqueUser);
 
     given()
@@ -112,7 +110,7 @@ public class RegistrationTest {
       .log().status()
       .log().body(true);
 
-    UserModel userWithDuplicateUsername = new UserModel(uniqueUser.getUser().get("username"), "uniqueEmail@email.com", "testPassword");
+    UserRequestBody userWithDuplicateUsername = new UserRequestBody(uniqueUser.getUser().get("username"), "uniqueEmail@email.com", "testPassword");
     RequestSpecification requestSpec2 = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION_BASE_PATH, userWithDuplicateUsername);
 
     Response response = given()
@@ -132,7 +130,7 @@ public class RegistrationTest {
 
   @Test
   public void requireUniqueEmail() {
-    UserModel uniqueUser = new UserModel().createUserWithDefaultValues();
+    UserRequestBody uniqueUser = new UserRequestBody().createUserBodyWithDefaultValues();
     RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION_BASE_PATH, uniqueUser);
 
     given()
@@ -145,7 +143,7 @@ public class RegistrationTest {
       .log().status()
       .log().body(true);
 
-    UserModel userWithDuplicateUsername = new UserModel("uniqueUsername", uniqueUser.getUser().get("email"), "testPassword");
+    UserRequestBody userWithDuplicateUsername = new UserRequestBody("uniqueUsername", uniqueUser.getUser().get("email"), "testPassword");
     RequestSpecification requestSpec2 = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION_BASE_PATH, userWithDuplicateUsername);
 
     Response response = given()
