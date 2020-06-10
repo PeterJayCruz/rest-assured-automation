@@ -8,7 +8,7 @@ public class ApiUtilities {
 
   public static UserRequestBody createTestUser() {
     UserRequestBody user = new UserRequestBody().createUserBodyWithDefaultValues();
-    RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION_BASE_PATH, user);
+    RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION, user);
 
     RestAssuredUtilities.postRequest(requestSpec, "");
 

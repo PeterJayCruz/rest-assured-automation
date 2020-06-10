@@ -4,6 +4,7 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.peterjaycruz.realworld.api.request.UserRequestBody;
 import org.peterjaycruz.realworld.api.constants.Path;
+import org.peterjaycruz.realworld.api.test.ApiTest;
 import org.peterjaycruz.realworld.api.utilities.RestAssuredUtilities;
 import org.testng.annotations.Test;
 
@@ -16,7 +17,7 @@ public class RegistrationTest {
   public void registerNewUser() {
 
     UserRequestBody user = new UserRequestBody().createUserBodyWithDefaultValues();
-    RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION_BASE_PATH, user);
+    RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION, user);
 
     Response response = given()
                           .log().uri()
@@ -38,7 +39,7 @@ public class RegistrationTest {
   @Test
   public void requireUsername() {
     UserRequestBody user = new UserRequestBody("", "email@email.com", "testPassword");
-    RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION_BASE_PATH, user);
+    RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION, user);
 
     Response response = given()
                           .log().uri()
@@ -58,7 +59,7 @@ public class RegistrationTest {
   @Test
   public void requireEmail() {
     UserRequestBody user = new UserRequestBody("username", "", "testPassword");
-    RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION_BASE_PATH, user);
+    RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION, user);
 
     Response response = given()
                           .log().uri()
@@ -78,7 +79,7 @@ public class RegistrationTest {
   @Test
   public void requirePassword() {
     UserRequestBody user = new UserRequestBody("username", "email@email.com", "");
-    RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION_BASE_PATH, user);
+    RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION, user);
 
     Response response = given()
                           .log().uri()
@@ -98,7 +99,7 @@ public class RegistrationTest {
   @Test
   public void requireUniqueUsername() {
     UserRequestBody uniqueUser = new UserRequestBody().createUserBodyWithDefaultValues();
-    RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION_BASE_PATH, uniqueUser);
+    RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION, uniqueUser);
 
     given()
       .log().uri()
@@ -111,7 +112,7 @@ public class RegistrationTest {
       .log().body(true);
 
     UserRequestBody userWithDuplicateUsername = new UserRequestBody(uniqueUser.getUser().get("username"), "uniqueEmail@email.com", "testPassword");
-    RequestSpecification requestSpec2 = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION_BASE_PATH, userWithDuplicateUsername);
+    RequestSpecification requestSpec2 = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION, userWithDuplicateUsername);
 
     Response response = given()
                           .log().uri()
@@ -131,7 +132,7 @@ public class RegistrationTest {
   @Test
   public void requireUniqueEmail() {
     UserRequestBody uniqueUser = new UserRequestBody().createUserBodyWithDefaultValues();
-    RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION_BASE_PATH, uniqueUser);
+    RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION, uniqueUser);
 
     given()
       .log().uri()
@@ -144,7 +145,7 @@ public class RegistrationTest {
       .log().body(true);
 
     UserRequestBody userWithDuplicateUsername = new UserRequestBody("uniqueUsername", uniqueUser.getUser().get("email"), "testPassword");
-    RequestSpecification requestSpec2 = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION_BASE_PATH, userWithDuplicateUsername);
+    RequestSpecification requestSpec2 = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION, userWithDuplicateUsername);
 
     Response response = given()
                           .log().uri()
