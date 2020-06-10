@@ -1,10 +1,10 @@
-package org.peterjaycruz.realworld.api.user;
+package org.peterjaycruz.realworld.api.test.user;
 
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.peterjaycruz.realworld.api.request.UserRequestBody;
-import org.peterjaycruz.realworld.constants.Path;
-import org.peterjaycruz.realworld.utilities.RestAssuredUtilities;
+import org.peterjaycruz.realworld.api.constants.Path;
+import org.peterjaycruz.realworld.api.utilities.RestAssuredUtilities;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
