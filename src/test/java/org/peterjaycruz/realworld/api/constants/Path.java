@@ -1,4 +1,4 @@
-package org.peterjaycruz.realworld.constants;
+package org.peterjaycruz.realworld.api.constants;
 
 public class Path {
 
