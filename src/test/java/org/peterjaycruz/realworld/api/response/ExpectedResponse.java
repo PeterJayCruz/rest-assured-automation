@@ -2,14 +2,24 @@ package org.peterjaycruz.realworld.api.response;
 
 public class ExpectedResponse {
 
-  private int statusCode;
+  private int expectedStatusCode;
+  private ApiResponseBody expectedResponseBody;
 
-  public int getStatusCode() {
-    return statusCode;
+  public int getExpectedStatusCode() {
+    return expectedStatusCode;
   }
 
-  public ExpectedResponse setStatusCode(int statusCode) {
-    this.statusCode = statusCode;
+  public ExpectedResponse setExpectedStatusCode(int expectedStatusCode) {
+    this.expectedStatusCode = expectedStatusCode;
+    return this;
+  }
+
+  public ApiResponseBody getExpectedResponseBody() {
+    return expectedResponseBody;
+  }
+
+  public ExpectedResponse setExpectedResponseBody(ApiResponseBody expectedResponseBody) {
+    this.expectedResponseBody = expectedResponseBody;
     return this;
   }
 }
