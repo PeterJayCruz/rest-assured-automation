@@ -18,4 +18,10 @@ public class ApiUtilities {
   public static UserResponseBody createTestUser() {
     return createTestUser(new UserRequestBody().createUserBodyWithDefaultValues());
   }
+
+  public static UserResponseBody createTestUser(String username, String email, String password) {
+    UserRequestBody existingUserRequestBody = new UserRequestBody(username, email, password);
+
+    return createTestUser(existingUserRequestBody);
+  }
 }
