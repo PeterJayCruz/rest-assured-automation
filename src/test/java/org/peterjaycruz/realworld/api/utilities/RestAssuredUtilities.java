@@ -29,56 +29,40 @@ public class RestAssuredUtilities {
 
   public static Response getRequest(RequestSpecification requestSpec, String endpoint) {
     return given()
-              .log().uri()
-              .log().body()
               .spec(requestSpec)
            .when()
               .get(endpoint)
            .then()
-              .log().status()
-              .log().body(true)
               .extract()
               .response();
   }
 
   public static Response postRequest(RequestSpecification requestSpec, String endpoint) {
     return given()
-              .log().uri()
-              .log().body()
               .spec(requestSpec)
            .when()
               .post(endpoint)
            .then()
-              .log().status()
-              .log().body(true)
               .extract()
               .response();
   }
 
   public static Response putRequest(RequestSpecification requestSpec, String endpoint) {
     return given()
-              .log().uri()
-              .log().body()
               .spec(requestSpec)
            .when()
               .put(endpoint)
            .then()
-              .log().status()
-              .log().body(true)
               .extract()
               .response();
   }
 
   public static Response deleteRequest(RequestSpecification requestSpec, String endpoint) {
     return given()
-              .log().uri()
-              .log().body()
               .spec(requestSpec)
            .when()
               .delete(endpoint)
            .then()
-              .log().status()
-              .log().body(true)
               .extract()
               .response();
   }
