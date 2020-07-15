@@ -20,8 +20,6 @@ public class ApiUtilities {
   }
 
   public static UserResponseBody createTestUser(String username, String email, String password) {
-    UserRequestBody existingUserRequestBody = new UserRequestBody(username, email, password);
-
-    return createTestUser(existingUserRequestBody);
+    return createTestUser(new UserRequestBody(username, email, password));
   }
 }
