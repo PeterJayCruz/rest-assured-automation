@@ -1,4 +1,4 @@
-package org.peterjaycruz.realworld.utilities;
+package org.peterjaycruz.realworld.api.utilities;
 
 import java.util.Date;
 

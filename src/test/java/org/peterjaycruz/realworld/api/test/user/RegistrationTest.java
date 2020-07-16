@@ -1,10 +1,11 @@
-package org.peterjaycruz.realworld.api.registration;
+package org.peterjaycruz.realworld.api.test.user;
 
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import org.peterjaycruz.realworld.api.request.User;
+import org.peterjaycruz.realworld.api.request.UserRequestBody;
+import org.peterjaycruz.realworld.api.constants.Path;
+import org.peterjaycruz.realworld.api.test.ApiTest;
+import org.peterjaycruz.realworld.api.utilities.RestAssuredUtilities;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
@@ -12,22 +13,18 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class RegistrationTest {
 
-  private static final String USERS_ENDPOINT = "http://localhost:8080/users";
-
-  private static final String BASE_URI = "http://localhost:8080";
-  private static final String REGISTRATION_BASE_PATH = "/users";
-
   @Test
   public void registerNewUser() {
 
-    User user = new User();
+    UserRequestBody user = new UserRequestBody().createUserBodyWithDefaultValues();
+    RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION, user);
 
     Response response = given()
                           .log().uri()
                           .log().body()
-                          .spec(createRequestSpecification(user))
+                          .spec(requestSpec)
                         .when()
-                          .post(USERS_ENDPOINT)
+                          .post()
                         .then()
                           .log().status()
                           .log().body(true)
@@ -41,14 +38,15 @@ public class RegistrationTest {
 
   @Test
   public void requireUsername() {
-    User user = new User("", "email@email.com", "testPassword");
+    UserRequestBody user = new UserRequestBody("", "email@email.com", "testPassword");
+    RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION, user);
 
     Response response = given()
                           .log().uri()
                           .log().body()
-                          .spec(createRequestSpecification(user))
+                          .spec(requestSpec)
                         .when()
-                          .post(USERS_ENDPOINT)
+                          .post()
                         .then()
                           .log().status()
                           .log().body(true)
@@ -59,15 +57,16 @@ public class RegistrationTest {
   }
 
   @Test
-  public void requiresEmail() {
-    User user = new User("username", "", "testPassword");
+  public void requireEmail() {
+    UserRequestBody user = new UserRequestBody("username", "", "testPassword");
+    RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION, user);
 
     Response response = given()
                           .log().uri()
                           .log().body()
-                          .spec(createRequestSpecification(user))
+                          .spec(requestSpec)
                         .when()
-                          .post(USERS_ENDPOINT)
+                          .post()
                         .then()
                           .log().status()
                           .log().body(true)
@@ -78,15 +77,16 @@ public class RegistrationTest {
   }
 
   @Test
-  public void requiresPassword() {
-    User user = new User("username", "email@email.com", "");
+  public void requirePassword() {
+    UserRequestBody user = new UserRequestBody("username", "email@email.com", "");
+    RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION, user);
 
     Response response = given()
                           .log().uri()
                           .log().body()
-                          .spec(createRequestSpecification(user))
+                          .spec(requestSpec)
                         .when()
-                          .post(USERS_ENDPOINT)
+                          .post()
                         .then()
                           .log().status()
                           .log().body(true)
@@ -97,26 +97,29 @@ public class RegistrationTest {
   }
 
   @Test
-  public void requiresUniqueUsername() {
-    User uniqueUser = new User();
+  public void requireUniqueUsername() {
+    UserRequestBody uniqueUser = new UserRequestBody().createUserBodyWithDefaultValues();
+    RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION, uniqueUser);
+
     given()
       .log().uri()
       .log().body()
-      .spec(createRequestSpecification(uniqueUser))
+      .spec(requestSpec)
     .when()
-      .post(USERS_ENDPOINT)
+      .post()
     .then()
       .log().status()
       .log().body(true);
 
-    User userWithDuplicateUsername = new User(uniqueUser.getUser().get("username"), "uniqueEmail@email.com", "testPassword");
+    UserRequestBody userWithDuplicateUsername = new UserRequestBody(uniqueUser.getUser().get("username"), "uniqueEmail@email.com", "testPassword");
+    RequestSpecification requestSpec2 = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION, userWithDuplicateUsername);
 
     Response response = given()
                           .log().uri()
                           .log().body()
-                          .spec(createRequestSpecification(userWithDuplicateUsername))
+                          .spec(requestSpec2)
                         .when()
-                          .post(USERS_ENDPOINT)
+                          .post()
                         .then()
                           .log().status()
                           .log().body(true)
@@ -127,26 +130,29 @@ public class RegistrationTest {
   }
 
   @Test
-  public void requiresUniqueEmail() {
-    User uniqueUser = new User();
+  public void requireUniqueEmail() {
+    UserRequestBody uniqueUser = new UserRequestBody().createUserBodyWithDefaultValues();
+    RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION, uniqueUser);
+
     given()
       .log().uri()
       .log().body()
-      .spec(createRequestSpecification(uniqueUser))
+      .spec(requestSpec)
     .when()
-      .post(USERS_ENDPOINT)
+      .post()
     .then()
       .log().status()
       .log().body(true);
 
-    User userWithDuplicateUsername = new User("uniqueUsername", uniqueUser.getUser().get("email"), "testPassword");
+    UserRequestBody userWithDuplicateUsername = new UserRequestBody("uniqueUsername", uniqueUser.getUser().get("email"), "testPassword");
+    RequestSpecification requestSpec2 = RestAssuredUtilities.createRequestSpecification(Path.REGISTRATION, userWithDuplicateUsername);
 
     Response response = given()
                           .log().uri()
                           .log().body()
-                          .spec(createRequestSpecification(userWithDuplicateUsername))
+                          .spec(requestSpec2)
                         .when()
-                          .post(USERS_ENDPOINT)
+                          .post()
                         .then()
                           .log().status()
                           .log().body(true)
@@ -154,14 +160,5 @@ public class RegistrationTest {
                           .body("errors.email[0]", equalTo("duplicated email"))
                           .extract()
                           .response();
-  }
-
-  private static RequestSpecification createRequestSpecification(User user) {
-    return new RequestSpecBuilder()
-                  .setBaseUri(BASE_URI)
-                  .setBasePath(REGISTRATION_BASE_PATH)
-                  .addHeader("Content-Type", ContentType.JSON.toString())
-                  .setBody(user)
-                  .build();
   }
 }
