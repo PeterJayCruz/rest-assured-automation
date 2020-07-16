@@ -151,7 +151,7 @@ public class AuthenticationTest {
 
       for(int i = 0; i < expected.length; i++) {
         if(!actual[i].equals(expected[i])) {
-          System.out.println("FAILED VALIDATION");
+          System.out.println("FAILED ERROR MESSAGE VALIDATION: " + entry.getKey());
           printExpectedVsActual(expected[i], actual[i]);
           failCount++;
         }
