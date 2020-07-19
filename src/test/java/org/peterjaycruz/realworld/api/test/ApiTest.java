@@ -38,4 +38,9 @@ public class ApiTest<T extends RequestBody, V extends ApiResponseBody> {
     this.expectedResponse = expectedResponse;
     return this;
   }
+
+  public ApiTest<T, V> addHeader(String key, String value) {
+    RestAssuredUtilities.addHeader(this.requestSpec, key, value);
+    return this;
+  }
 }

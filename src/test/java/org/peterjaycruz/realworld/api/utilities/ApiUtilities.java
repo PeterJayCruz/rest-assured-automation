@@ -22,4 +22,14 @@ public class ApiUtilities {
   public static UserResponseBody createTestUser(String username, String email, String password) {
     return createTestUser(new UserRequestBody(username, email, password));
   }
+
+  public static UserResponseBody logInAsUser(String email, String password, String token) {
+    UserRequestBody user = new UserRequestBody().email(email).password(password);
+
+    RequestSpecification requestSpec = RestAssuredUtilities.createRequestSpecification(Path.LOGIN, user);
+
+    return RestAssuredUtilities.postRequest(requestSpec, "")
+                                  .body()
+                                  .as(UserResponseBody.class);
+  }
 }
