@@ -27,6 +27,10 @@ public class RestAssuredUtilities {
                 .build();
   }
 
+  public static RequestSpecification addHeader(RequestSpecification requestSpec, String key, String value) {
+    return requestSpec.header(key, value);
+  }
+
   public static Response getRequest(RequestSpecification requestSpec, String endpoint) {
     return given()
               .spec(requestSpec)
