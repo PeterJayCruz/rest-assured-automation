@@ -6,6 +6,7 @@ public class StringUtilities {
 
   public static String createUniqueString(String prefix) {
     return new StringBuilder(prefix)
+                .append("_")
                 .append(new Date()
                 .toInstant()
                 .toEpochMilli())
