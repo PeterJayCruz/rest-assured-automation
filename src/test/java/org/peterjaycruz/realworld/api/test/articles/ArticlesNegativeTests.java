@@ -44,12 +44,11 @@ public class ArticlesNegativeTests {
     PrintUtilities.printDivider();
 
     // create test request
-    String title = "";
     String description = StringUtilities.createUniqueString("description");
     String body = StringUtilities.createUniqueString("test article body");
 
     ArticlesRequestBody articlesRequestBody = new ArticlesRequestBody()
-            .title(title)
+            .title("")
             .description(description)
             .body(body);
 
@@ -130,12 +129,11 @@ public class ArticlesNegativeTests {
 
     // create test request
     String title = StringUtilities.createUniqueString("title");
-    String description = "";
     String body = StringUtilities.createUniqueString("test article body");
 
     ArticlesRequestBody articlesRequestBody = new ArticlesRequestBody()
             .title(title)
-            .description(description)
+            .description("")
             .body(body);
 
     // create test expected response
@@ -168,18 +166,16 @@ public class ArticlesNegativeTests {
   }
 
   @Test()
-  public void testDescriptionIsRequired_Null
-          () {
+  public void testDescriptionIsRequired_Null() {
     PrintUtilities.printDivider();
 
     // create test request
     String title = StringUtilities.createUniqueString("title");
-    String description = null;
     String body = StringUtilities.createUniqueString("test article body");
 
     ArticlesRequestBody articlesRequestBody = new ArticlesRequestBody()
             .title(title)
-            .description(description)
+            .description(null)
             .body(body);
 
     // create test expected response
@@ -192,6 +188,90 @@ public class ArticlesNegativeTests {
     // create test object
     ApiTest<ArticlesRequestBody, ErrorResponseBody> test = new ApiTest<ArticlesRequestBody, ErrorResponseBody>()
             .setTestName("require description (null)")
+            .setEndpoint(Path.ARTICLES)
+            .addHeader("Authorization", authorizationHeaderValue)
+            .setRequestBody(articlesRequestBody)
+            .setExpectedResponse(expectedResponse);
+
+    // send and receive request
+    PrintUtilities.printToConsole("Test name: " + test.testName );
+    Response actualResponse = RestAssuredUtilities.postRequest(test.requestSpec, test.endpoint);
+
+    // validate response
+    int failCount = 0;
+    failCount += ValidationUtilities.validateStatusCode(actualResponse.getStatusCode(), test.expectedResponse.getExpectedStatusCode());
+    failCount += ValidationUtilities.validateErrorResponseBody(actualResponse, errorResponseBody);
+
+    // analyze and print test results
+    ValidationUtilities.analyzeTestCaseResults(failCount);
+    PrintUtilities.printDivider();
+  }
+
+  @Test()
+  public void testBodyIsRequired_Empty() {
+    PrintUtilities.printDivider();
+
+    // create test request
+    String title = StringUtilities.createUniqueString("title");
+    String description = StringUtilities.createUniqueString("description");
+
+    ArticlesRequestBody articlesRequestBody = new ArticlesRequestBody()
+            .title(title)
+            .description(description)
+            .body("");
+
+    // create test expected response
+    ErrorResponseBody errorResponseBody = new ErrorResponseBody()
+            .addErrorMessage("body", "can't be empty");
+
+    ExpectedResponse<ErrorResponseBody> expectedResponse = new ExpectedResponse<ErrorResponseBody>()
+            .setExpectedStatusCode(422);
+
+    // create test object
+    ApiTest<ArticlesRequestBody, ErrorResponseBody> test = new ApiTest<ArticlesRequestBody, ErrorResponseBody>()
+            .setTestName("require body (empty)")
+            .setEndpoint(Path.ARTICLES)
+            .addHeader("Authorization", authorizationHeaderValue)
+            .setRequestBody(articlesRequestBody)
+            .setExpectedResponse(expectedResponse);
+
+    // send and receive request
+    PrintUtilities.printToConsole("Test name: " + test.testName );
+    Response actualResponse = RestAssuredUtilities.postRequest(test.requestSpec, test.endpoint);
+
+    // validate response
+    int failCount = 0;
+    failCount += ValidationUtilities.validateStatusCode(actualResponse.getStatusCode(), test.expectedResponse.getExpectedStatusCode());
+    failCount += ValidationUtilities.validateErrorResponseBody(actualResponse, errorResponseBody);
+
+    // analyze and print test results
+    ValidationUtilities.analyzeTestCaseResults(failCount);
+    PrintUtilities.printDivider();
+  }
+
+  @Test()
+  public void testBodyIsRequired_Null() {
+    PrintUtilities.printDivider();
+
+    // create test request
+    String title = StringUtilities.createUniqueString("title");
+    String description = StringUtilities.createUniqueString("description");
+
+    ArticlesRequestBody articlesRequestBody = new ArticlesRequestBody()
+            .title(title)
+            .description(description)
+            .body(null);
+
+    // create test expected response
+    ErrorResponseBody errorResponseBody = new ErrorResponseBody()
+            .addErrorMessage("body", "can't be empty");
+
+    ExpectedResponse<ErrorResponseBody> expectedResponse = new ExpectedResponse<ErrorResponseBody>()
+            .setExpectedStatusCode(422);
+
+    // create test object
+    ApiTest<ArticlesRequestBody, ErrorResponseBody> test = new ApiTest<ArticlesRequestBody, ErrorResponseBody>()
+            .setTestName("require body (null)")
             .setEndpoint(Path.ARTICLES)
             .addHeader("Authorization", authorizationHeaderValue)
             .setRequestBody(articlesRequestBody)
