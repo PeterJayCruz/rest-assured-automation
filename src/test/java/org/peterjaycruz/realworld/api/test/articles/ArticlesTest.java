@@ -135,7 +135,7 @@ public class ArticlesTest {
     System.out.println("Test name: " + test.testName);
 
     // send request and receive response
-    Response actualResponse = RestAssuredUtilities.postRequest(test.requestSpec, test. endpoint);
+    Response actualResponse = RestAssuredUtilities.postRequest(test.requestSpec, test.endpoint);
 
     // validate response
     int failCount = 0;
