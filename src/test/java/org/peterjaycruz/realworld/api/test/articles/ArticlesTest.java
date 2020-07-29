@@ -63,14 +63,14 @@ public class ArticlesTest {
             .tagList(tagList);
 
     // create test expected response
-    ArticlesResponseBody expectedArticlesResponseBody =  new ArticlesResponseBody();
-    expectedArticlesResponseBody.article.title = title;
-    expectedArticlesResponseBody.article.description = description;
-    expectedArticlesResponseBody.article.body = body;
-    expectedArticlesResponseBody.article.tagList = tagList;
+    ArticlesResponseBody expectedArticlesResponseBody = new ArticlesResponseBody()
+            .title(title)
+            .description(description)
+            .body(body)
+            .tagList(tagList);
 
     ExpectedResponse<ArticlesResponseBody> expectedResponse = new ExpectedResponse<ArticlesResponseBody>()
-            .setExpectedStatusCode(210);
+            .setExpectedStatusCode(200);
 
     // create test object
     String tokenHeaderValue = "Token " + tokenValue;
@@ -114,10 +114,10 @@ public class ArticlesTest {
             .body(body);
 
     // create test expected response
-    ArticlesResponseBody expectedArticlesResponseBody =  new ArticlesResponseBody();
-    expectedArticlesResponseBody.article.title = title;
-    expectedArticlesResponseBody.article.description = description;
-    expectedArticlesResponseBody.article.body = body;
+    ArticlesResponseBody expectedArticlesResponseBody = new ArticlesResponseBody()
+            .title(title)
+            .description(description)
+            .body(body);
 
     ExpectedResponse<ArticlesResponseBody> expectedResponse = new ExpectedResponse<ArticlesResponseBody>()
             .setExpectedStatusCode(200);
@@ -135,7 +135,7 @@ public class ArticlesTest {
     System.out.println("Test name: " + test.testName);
 
     // send request and receive response
-    Response actualResponse = RestAssuredUtilities.postRequest(test.requestSpec, test. endpoint);
+    Response actualResponse = RestAssuredUtilities.postRequest(test.requestSpec, test.endpoint);
 
     // validate response
     int failCount = 0;
@@ -153,21 +153,21 @@ public class ArticlesTest {
   private static int validateSuccessfulArticlesResponse(Response actualResponse, ArticlesResponseBody expectedResponse) {
     int failCount = 0;
 
-    ResponseArticle actualResponseRoot = actualResponse.body().as(ArticlesResponseBody.class).article;
-    ResponseArticle expectedResponseRoot = expectedResponse.article;
+    ResponseArticle actualResponseRoot = actualResponse.body().as(ArticlesResponseBody.class).getArticle();
+    ResponseArticle expectedResponseRoot = expectedResponse.getArticle();
 
     // verify title
-    failCount += validateField("article.title", actualResponseRoot.title, expectedResponseRoot.title);
+    failCount += validateField("article.title", actualResponseRoot.getTitle(), expectedResponseRoot.getTitle());
 
     // verify description
-    failCount+= validateField("article.description", actualResponseRoot.description, expectedResponseRoot.description);
+    failCount+= validateField("article.description", actualResponseRoot.getDescription(), expectedResponseRoot.getDescription());
 
     // verify body
-    failCount+= validateField("article.body", actualResponseRoot.body, expectedResponseRoot.body);
+    failCount+= validateField("article.body", actualResponseRoot.getBody(), expectedResponseRoot.getBody());
 
     // verify tagList only if a list of tags is provided
-    if(expectedResponseRoot.tagList.size() > 0) {
-      failCount+= validateList("article.tagList", actualResponseRoot.tagList, expectedResponseRoot.tagList);
+    if(expectedResponseRoot.getTagList().size() > 0) {
+      failCount+= validateList("article.tagList", actualResponseRoot.getTagList(), expectedResponseRoot.getTagList());
     }
 
     return failCount;

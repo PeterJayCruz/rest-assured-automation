@@ -14,6 +14,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -83,14 +84,14 @@ public class AuthenticationTest {
             .password("invalidPassword");
 
     // create test expected response
-    ErrorResponseBody errorResponseBody = new ErrorResponseBody();
-    errorResponseBody.errors.put("password", new String[] {"invalid email or password"});
+    ErrorResponseBody errorResponseBody = new ErrorResponseBody()
+            .addErrorMessage("password", "invalid email or pasfsword");
 
-    ExpectedResponse<UserResponseBody> expectedResponse = new ExpectedResponse<UserResponseBody>()
+    ExpectedResponse<ErrorResponseBody> expectedResponse = new ExpectedResponse<ErrorResponseBody>()
             .setExpectedStatusCode(422);
 
     // create test object
-    ApiTest<UserRequestBody, UserResponseBody> test = new ApiTest<UserRequestBody, UserResponseBody>()
+    ApiTest<UserRequestBody, ErrorResponseBody> test = new ApiTest<UserRequestBody, ErrorResponseBody>()
             .setTestName("failed authentication")
             .setEndpoint(Path.LOGIN)
             .setRequestBody(loginUserRequestBody)
@@ -143,16 +144,16 @@ public class AuthenticationTest {
   private static int validateErrorResponseBody(Response actualResponse, ErrorResponseBody expectedResponse) {
     int failCount = 0;
 
-    HashMap<String, String[]> actualResponseBodyValues = actualResponse.body().as(ErrorResponseBody.class).errors;
+    HashMap<String, ArrayList<String>> actualResponseBodyValues = actualResponse.body().as(ErrorResponseBody.class).getErrors();
 
-    for(Map.Entry<String, String[]> entry : expectedResponse.errors.entrySet()) {
-      String[] actual = actualResponseBodyValues.get(entry.getKey());
-      String[] expected = entry.getValue();
+    for(Map.Entry<String, ArrayList<String>> entry : expectedResponse.getErrors().entrySet()) {
+      ArrayList<String> actual = actualResponseBodyValues.get(entry.getKey());
+      ArrayList<String> expected = entry.getValue();
 
-      for(int i = 0; i < expected.length; i++) {
-        if(!actual[i].equals(expected[i])) {
+      for(int i = 0; i < expected.size(); i++) {
+        if(!actual.get(i).equals(expected.get(i))) {
           System.out.println("FAILED ERROR MESSAGE VALIDATION: " + entry.getKey());
-          printExpectedVsActual(expected[i], actual[i]);
+          printExpectedVsActual(expected.get(i), actual.get(i));
           failCount++;
         }
       }
