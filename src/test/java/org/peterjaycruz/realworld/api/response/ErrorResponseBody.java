@@ -17,7 +17,7 @@ public class ErrorResponseBody extends ApiResponseBody {
 
   public ErrorResponseBody addErrorMessage(String errorField, String message) {
     if(!errors.containsKey(errorField)) {
-      errors.put(errorField, new ArrayList<String>());
+      errors.put(errorField, new ArrayList<>());
     }
 
     errors.get(errorField).add(message);

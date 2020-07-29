@@ -33,5 +33,4 @@ public class ArticlesResponseBody extends ApiResponseBody {
     this.article.tagList(tagList);
     return this;
   }
-
 }
