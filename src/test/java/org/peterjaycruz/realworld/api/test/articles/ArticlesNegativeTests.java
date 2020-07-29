@@ -290,4 +290,41 @@ public class ArticlesNegativeTests {
     ValidationUtilities.analyzeTestCaseResults(failCount);
     PrintUtilities.printDivider();
   }
+
+  @Test()
+  public void testAuthorizationIsRequiredToCreateArticle() {
+    PrintUtilities.printDivider();
+
+    // create test request
+    String title = StringUtilities.createUniqueString("title");
+    String description = StringUtilities.createUniqueString("description");
+    String body = StringUtilities.createUniqueString("test article body");
+
+    ArticlesRequestBody articlesRequestBody = new ArticlesRequestBody()
+            .title(title)
+            .description(description)
+            .body(body);
+
+    ExpectedResponse<ErrorResponseBody> expectedResponse = new ExpectedResponse<ErrorResponseBody>()
+            .setExpectedStatusCode(401);
+
+    // create test object
+    ApiTest<ArticlesRequestBody, ErrorResponseBody> test = new ApiTest<ArticlesRequestBody, ErrorResponseBody>()
+            .setTestName("unauthorized article creation")
+            .setEndpoint(Path.ARTICLES)
+            .setRequestBody(articlesRequestBody)
+            .setExpectedResponse(expectedResponse);
+
+    // send and receive request
+    PrintUtilities.printToConsole("Test name: " + test.testName );
+    Response actualResponse = RestAssuredUtilities.postRequest(test.requestSpec, test.endpoint);
+
+    // validate response
+    int failCount = 0;
+    failCount += ValidationUtilities.validateStatusCode(actualResponse.getStatusCode(), test.expectedResponse.getExpectedStatusCode());
+
+    // analyze and print test results
+    ValidationUtilities.analyzeTestCaseResults(failCount);
+    PrintUtilities.printDivider();
+  }
 }
