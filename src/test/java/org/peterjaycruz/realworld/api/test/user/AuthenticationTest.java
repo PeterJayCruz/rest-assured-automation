@@ -53,7 +53,7 @@ public class AuthenticationTest {
 
     // create test object
     ApiTest<UserRequestBody, UserResponseBody> test = new ApiTest<UserRequestBody, UserResponseBody>()
-            .setTestName("sucessful authentication")
+            .setTestName("successful authentication")
             .setEndpoint(Path.LOGIN)
             .setRequestBody(loginUserRequestBody)
             .setExpectedResponse(expectedResponse);
@@ -85,7 +85,7 @@ public class AuthenticationTest {
 
     // create test expected response
     ErrorResponseBody errorResponseBody = new ErrorResponseBody()
-            .addErrorMessage("password", "invalid email or pasfsword");
+            .addErrorMessage("password", "invalid email or password");
 
     ExpectedResponse<ErrorResponseBody> expectedResponse = new ExpectedResponse<ErrorResponseBody>()
             .setExpectedStatusCode(422);
